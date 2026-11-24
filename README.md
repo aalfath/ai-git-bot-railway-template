@@ -49,7 +49,7 @@ The `LLM_*`, `GIT_*`, `BOT_WEBHOOK_SECRET` and `WEBHOOK_SIGNING_SECRET` values a
 
 ## Resources
 
-PR reviews, review replies and issue triage fit Railway's Free plan (0.5 GB RAM, 1 vCPU): about 380 MB in use after a review in our test. The coding agent and the end-to-end test workflows clone and build repositories and start Chromium, so give the service **2 GB or more** (Hobby plan) if you enable them. Code execution uses upstream's per-run sandbox users inside the container; no Docker-in-Docker or privileged mode is needed.
+PR reviews, review replies and issue triage fit Railway's Free plan (0.5 GB RAM, 1 vCPU): about 400 MB in use after a review in our Railway test. The coding agent and the end-to-end test workflows clone and build repositories and start Chromium, so we recommend **2 GB or more** (Hobby plan) if you enable them (we tested reviews, not these heavier workflows, at 0.5 GB). Code execution uses upstream's per-run sandbox users inside the container; no Docker-in-Docker or privileged mode is needed.
 
 ## Updates
 

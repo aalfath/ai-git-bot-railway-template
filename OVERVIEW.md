@@ -42,7 +42,7 @@ This template runs AI Git Bot 1.32.0 (official image, pinned by digest) with Rai
 
 The LLM and Git variables are read only on the first boot. To change them later, edit the integrations in the web UI under **AI Integrations** and **Git Integrations**.
 
-**Resources:** PR reviews, comment replies and triage run within Railway's Free-plan 0.5 GB. The coding agent and the end-to-end test workflows build repositories and start Chromium, and need about 2 GB or more (Hobby plan). Code execution runs in a per-run sandbox user inside the container, with no Docker-in-Docker.
+**Resources:** PR reviews, comment replies and triage run within Railway's Free-plan 0.5 GB. The coding agent and the end-to-end test workflows build repositories and start Chromium, so we recommend 2 GB or more (Hobby plan) for them; only reviews were tested at 0.5 GB. Code execution runs in a per-run sandbox user inside the container, with no Docker-in-Docker.
 
 **Updates:** the service builds from the template's GitHub repository, so Railway shows an update notice when the pinned version is bumped. Read `CHANGELOG.md` before you apply one.
 
