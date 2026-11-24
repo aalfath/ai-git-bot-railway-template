@@ -8,3 +8,4 @@ First release of the template.
 - Cypress removed and the image flattened (3.8 GB, under Railway's 4 GB Free/Trial limit). Playwright stays.
 - Admin, AI integration, Git integration and bot created on first boot on a loopback-only instance; the service exits if no admin exists.
 - JVM, Tomcat, DB pool and git memory sized from the container limits.
+- Forwarded headers from Railway's proxy honoured, so redirects and cookies use https.

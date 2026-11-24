@@ -58,6 +58,13 @@ export MALLOC_ARENA_MAX="${MALLOC_ARENA_MAX:-2}"
 export SERVER_TOMCAT_THREADS_MAX="${SERVER_TOMCAT_THREADS_MAX:-40}"
 export SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE="${SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE:-8}"
 export SPRING_MAIN_BANNER_MODE=off
+# Railway's proxy terminates TLS: honour X-Forwarded-Proto/-For from it, so redirects
+# and links use https://YOUR-DOMAIN/ and session cookies are Secure. Trusted: Railway's
+# proxy ranges (100.64.0.0/10, 152.233.0.0/16) plus loopback and private networks.
+export SERVER_FORWARD_HEADERS_STRATEGY="${SERVER_FORWARD_HEADERS_STRATEGY:-native}"
+trusted='10\.\d{1,3}\.\d{1,3}\.\d{1,3}|192\.168\.\d{1,3}\.\d{1,3}|172\.(1[6-9]|2[0-9]|3[01])\.\d{1,3}\.\d{1,3}|127\.\d{1,3}\.\d{1,3}\.\d{1,3}|100\.(6[4-9]|[7-9][0-9]|1[01][0-9]|12[0-7])\.\d{1,3}\.\d{1,3}|152\.233\.\d{1,3}\.\d{1,3}|0:0:0:0:0:0:0:1|::1|f[cd][0-9a-f]{2}:.*|fe80:.*'
+export SERVER_TOMCAT_REMOTEIP_INTERNAL_PROXIES="${SERVER_TOMCAT_REMOTEIP_INTERNAL_PROXIES:-$trusted}"
+unset trusted
 # Upstream logs every AI request and agent step at DEBUG; INFO keeps prompts and
 # code out of Railway's logs (set LOGGING_LEVEL_ORG_REMUS_GITEABOT=DEBUG to debug).
 export LOGGING_LEVEL_ORG_REMUS_GITEABOT="${LOGGING_LEVEL_ORG_REMUS_GITEABOT:-INFO}"
