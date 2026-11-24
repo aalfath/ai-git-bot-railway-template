@@ -18,6 +18,12 @@ LLM_DEFAULT_URLS = {
     "GOOGLE": "https://generativelanguage.googleapis.com",
     "OPENROUTER": "https://openrouter.ai/api",
 }
+LLM_DEFAULT_MODELS = {  # upstream's suggested models (1.32.0)
+    "OPENAI": "gpt-6.2-sol",
+    "ANTHROPIC": "claude-sonnet-5-5",
+    "GOOGLE": "gemini-4-argon",
+    "OPENROUTER": "openrouter/auto",
+}
 GIT_PROVIDERS = {"GITHUB", "GITLAB", "GITEA", "BITBUCKET", "AZURE_DEVOPS"}
 GIT_DEFAULT_URLS = {"GITHUB": "https://github.com", "GITLAB": "https://gitlab.com",
                     "BITBUCKET": "https://bitbucket.org", "AZURE_DEVOPS": "https://dev.azure.com"}
@@ -100,18 +106,20 @@ def build_document(full):
         api_url = env("LLM_BASE_URL", LLM_DEFAULT_URLS.get(provider, "")).rstrip("/")
         if api_url.endswith("/v1") and provider in ("OPENAI", "OPENROUTER"):
             api_url = api_url[:-3]  # the app appends /v1/chat/completions itself
+        model = env("LLM_MODEL", LLM_DEFAULT_MODELS.get(provider, ""))
         if not api_url:
             log(f"LLM_BASE_URL is required for {provider}: skipping the AI integration")
+        elif not model:
+            log(f"LLM_MODEL is required for {provider}: skipping the AI integration")
         else:
             ai_name = "Default AI"
-            ai = {"name": ai_name, "providerType": provider, "apiUrl": api_url,
-                  "model": env("LLM_MODEL", "gpt-6.2-sol"), "maxTokens": 16000}
+            ai = {"name": ai_name, "providerType": provider, "apiUrl": api_url, "model": model, "maxTokens": 16000}
             if llm_key:
                 ai["apiKey"] = llm_key
             if provider == "ANTHROPIC":
                 ai["apiVersion"] = "2023-06-01"
             doc["aiIntegrations"] = [ai]
-            seeded.append(f"AI integration '{ai_name}' ({provider}, model {ai['model']})")
+            seeded.append(f"AI integration '{ai_name}' ({provider}, model {model})")
     git_token = env("GIT_TOKEN")
     git_provider = env("GIT_PROVIDER", "GITHUB").upper()
     git_name = None
